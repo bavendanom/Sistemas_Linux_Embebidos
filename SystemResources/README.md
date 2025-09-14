@@ -10,7 +10,7 @@ make run       # ejecuta
 
 ## Captura del sistema
 
-![Captura del sistema](https://github.com/bavendanom/Sistemas_Linux_Embebidos/tree/main/SystemResources/img/CapturaSistema.png)
+![Captura del sistema](img/CapturaSistema.png)
 
 
 ## Autores
