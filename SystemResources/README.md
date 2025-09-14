@@ -23,7 +23,7 @@ sudo apt install -y build-essential libncurses5-dev
 make run   # compila y ejecuta
 ```
 
-##Estructura del proyecto
+## Estructura del proyecto
 
 ```bash
 SystemResources/
