@@ -2,10 +2,9 @@
 Implementación en C de un sistema sencillo que simula recursos del sistema (CPU, memoria y TUI) como parte de prácticas de Linux Embebido.
 
 ## Tabla de contenidos
-- [Build](#build)
-- [Uso](#uso)
-- [Estructura del proyecto](#estructura-del-proyecto)
 - [Requisitos](#requisitos)
+- [Build](#build)
+- [Estructura del proyecto](#estructura-del-proyecto)
 - [Ejemplo de ejecución](#ejemplo-de-ejecución)
 - [Captura del sistema](#captura-del-sistema)
 - [Autores](#autores)
@@ -24,13 +23,14 @@ sudo apt install -y build-essential libncurses5-dev
 make run   # compila y ejecuta
 ```
 
+```bash
 SystemResources/
 ├── include/          # Headers (cpu.h, memory.h, tui.h)
 ├── src/              # Código fuente en C
 ├── img/              # Capturas e imágenes para documentación
 ├── Makefile          # Script de compilación
 └── README.md         # Documentación del módulo
-
+```
 
 ## Captura del sistema
 
