@@ -22,6 +22,10 @@ sudo apt update
 sudo apt install -y build-essential libncurses5-dev
 make run   # compila y ejecuta
 ```
+## Ejemplo de ejecución
+```bash
+./build/rpi-sysinfo-tui
+```
 
 ## Estructura del proyecto
 
