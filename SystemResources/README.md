@@ -29,7 +29,7 @@ make run   # compila y ejecuta
 
 ## Estructura del proyecto
 
-```bash
+```ASCII
 SystemResources/
 ├── include/          # Headers (cpu.h, memory.h, tui.h)
 ├── src/              # Código fuente en C
