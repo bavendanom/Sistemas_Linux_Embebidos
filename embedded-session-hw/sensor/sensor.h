@@ -1,10 +1,11 @@
-#ifndef SENSOR_H
+#ifndef SENSOR_H  // Include guard
 #define SENSOR_H
 
-// Inicializa el sensor (simulado)
-void sensor_init(void);
+// Declaración de las funciones
+void sensor_init(void);  // Inicializa el sensor
+double sensor_read(void); // Lee el valor del sensor
 
-// Devuelve el valor actual del sensor
-double sensor_read(void);
+// Declaración de una variable global (extern) si es necesario
+extern double sensor_value; // Variable global para almacenar el valor del sensor
 
 #endif // SENSOR_H

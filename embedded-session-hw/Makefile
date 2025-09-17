@@ -1,16 +1,24 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
+LIBRARY_PATH = ./actuators
 
-all: sensor_test
+# Archivos fuente
+SOURCES = main.c $(LIBRARY_PATH)/led_actuator.c $(LIBRARY_PATH)/buzzer_actuator.c sensor/sensor.c
 
-sensor_test: sensor/sensor.o main.o
-	$(CC) $(CFLAGS) sensor/sensor.o main.o -o sensor_test
+# Archivos objeto
+OBJECTS = $(SOURCES:.c=.o)
 
-sensor.o: sensor/sensor.c sensor/sensor.h
-	$(CC) $(CFLAGS) -c sensor.c
+# Nombre del ejecutable
+EXEC = sensor_test
 
-main.o: main.c sensor/sensor.h
-	$(CC) $(CFLAGS) -c main.c
+# Regla para compilar el ejecutable
+$(EXEC): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $(EXEC)
 
+# Reglas para compilar los archivos fuente
+%.o: %.c
+	$(CC) $(CFLAGS) -I$(LIBRARY_PATH) -I./sensor -c $< -o $@
+
+# Regla para limpiar los archivos objeto y ejecutable
 clean:
-	rm -f *.o sensor_test
+	rm -f $(OBJECTS) $(EXEC)
