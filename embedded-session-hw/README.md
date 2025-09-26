@@ -543,6 +543,7 @@ readelf -h ctl64 | grep Class
 Class:                             ELF64
 Machine:                           Advanced Micro Devices X86-64
 ```
+---
 
 ## Reflexión sobre errores
 
