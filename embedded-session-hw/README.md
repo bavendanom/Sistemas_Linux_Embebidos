@@ -23,8 +23,8 @@ Este proyecto demuestra el diseño de un sistema embebido **modular, reutilizabl
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Build](#build)
 - [Ejemplo de ejecución](#ejemplo-de-ejecución)
-- [Binary inspection](#binary inspection)
-- [Reflection on compile vs link errors, wrappers](#reflection on compile vs link errors, wrappers)
+- [Binary inspection](#binary-inspection)
+- [Reflection on compile vs link errors, wrappers](#reflection-on-compile-vs-link-errors,-wrappers)
 - [Autor](#autor)
 
 ## Requisitos
