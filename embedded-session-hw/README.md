@@ -545,8 +545,6 @@ Machine:                           Advanced Micro Devices X86-64
 
 ## Reflexión sobre errores de compilación frente a errores de enlace, envoltorios
 
-
-
 # Errores de compilación
 
 Ocurren en la **fase de compilación** → cuando `gcc` convierte el código fuente (`.c`) en un archivo objeto (`.o`).
