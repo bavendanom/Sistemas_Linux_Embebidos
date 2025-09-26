@@ -1,88 +1,97 @@
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
-#include <unistd.h>  // Para usleep y nanosleep
-#include "sensor.h"
-#include "actuator.h"
+#include <unistd.h>   // usleep
+#include "../sensor/sensor.h"
+#include "../actuator/actuator.h"
 
-// Declaraciones externas
-extern actuator_t create_led_actuator(void);
-extern actuator_t create_buzzer_actuator(void);
+/* Declaraciones de fábricas y destructores de actuadores */
+actuator_t *create_led_actuator(int pin);
+void destroy_led_actuator(actuator_t *act);
 
-// Función auxiliar para timestamp
-void print_log(double value, int led_state, int buzzer_state) {
-    time_t t = time(NULL);
-    struct tm *tm_info = localtime(&t);
-    char buffer[9];
-    strftime(buffer, 9, "%H:%M:%S", tm_info);
-    printf("[%s] Valor: %.2f | LED: %s | Buzzer: %s\n",
-           buffer,
-           value,
-           led_state ? "ON" : "OFF",
-           buzzer_state ? "ON" : "OFF");
+actuator_t *create_buzzer_actuator(int frequency);
+void destroy_buzzer_actuator(actuator_t *act);
+
+/* Umbral de activación del sistema */
+#define SENSOR_THRESHOLD 30.0
+
+/* Retardos programados (en segundos) */
+#define BUZZER_OFF_DELAY 1.0
+#define LED_OFF_DELAY    5.0
+
+/* Función auxiliar: tiempo monotónico en segundos (double) */
+static double monotonic_time_sec(void) {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (double)ts.tv_sec + (double)ts.tv_nsec / 1e9;
 }
 
 int main(void) {
+    /* Inicializar el sensor */
     sensor_init();
-    actuator_t led = create_led_actuator();
-    actuator_t buzzer = create_buzzer_actuator();
 
-    double threshold = 50.0;
-    struct timespec now, buzzer_off_time = {0}, led_off_time = {0};
-    int buzzer_timer_active = 0, led_timer_active = 0;
+    /* Crear actuadores */
+    actuator_t *led = create_led_actuator(13);
+    actuator_t *buzzer = create_buzzer_actuator(2000);
+
+    /* Variables de control */
+    double buzzer_off_time = 0.0;
+    double led_off_time = 0.0;
+
+    printf("=== Controlador iniciado (muestreo 100ms) ===\n");
 
     while (1) {
-        clock_gettime(CLOCK_MONOTONIC, &now);
-        double value = sensor_read();
+        double now = monotonic_time_sec();
+        double lectura = sensor_read();
 
-        // Comprobación si el valor supera el umbral
-        if (value >= threshold) {
-            buzzer.activate(buzzer.params);
-            led.activate(led.params);
-            buzzer_timer_active = 0;
-            led_timer_active = 0;
+        /* Lógica principal */
+        if (lectura > SENSOR_THRESHOLD) {
+            /* Activar ambos inmediatamente */
+            led->activate(led);
+            buzzer->activate(buzzer);
+
+            /* Cancelar timers de apagado */
+            buzzer_off_time = 0.0;
+            led_off_time = 0.0;
         } else {
-            // Iniciar temporizadores para el buzzer y LED
-            if (!buzzer_timer_active) {
-                buzzer_off_time = now;
-                buzzer_off_time.tv_sec += 1;  // Se apaga después de 1 segundo
-                buzzer_timer_active = 1;
+            /* Si está encendido, programar apagados diferidos */
+            if (led->status(led) && led_off_time == 0.0) {
+                led_off_time = now + LED_OFF_DELAY;
             }
-            if (!led_timer_active) {
-                led_off_time = now;
-                led_off_time.tv_sec += 5;  // Se apaga después de 5 segundos
-                led_timer_active = 1;
+            if (buzzer->status(buzzer) && buzzer_off_time == 0.0) {
+                buzzer_off_time = now + BUZZER_OFF_DELAY;
             }
         }
 
-        // Desactivar buzzer cuando el tiempo haya pasado
-        if (buzzer_timer_active) {
-            if (now.tv_sec > buzzer_off_time.tv_sec ||
-                (now.tv_sec == buzzer_off_time.tv_sec && now.tv_nsec >= buzzer_off_time.tv_nsec)) {
-                printf("[Buzzer] Apagado a las %ld:%ld\n", now.tv_sec, now.tv_nsec);  // Depuración
-                buzzer.deactivate(buzzer.params);
-                buzzer_timer_active = 0;
-            }
+        /* Revisar timers */
+        if (buzzer_off_time > 0.0 && now >= buzzer_off_time) {
+            buzzer->deactivate(buzzer);
+            buzzer_off_time = 0.0;
+        }
+        if (led_off_time > 0.0 && now >= led_off_time) {
+            led->deactivate(led);
+            led_off_time = 0.0;
         }
 
-        // Desactivar LED cuando el tiempo haya pasado
-        if (led_timer_active) {
-            if (now.tv_sec > led_off_time.tv_sec ||
-                (now.tv_sec == led_off_time.tv_sec && now.tv_nsec >= led_off_time.tv_nsec)) {
-                printf("[LED] Apagado a las %ld:%ld\n", now.tv_sec, now.tv_nsec);  // Depuración
-                led.deactivate(led.params);
-                led_timer_active = 0;
-            }
-        }
+        /* Log en formato requerido */
+        printf("[%.3fs] Sensor=%.2f | LED=%s | Buzzer=%s\n",
+               now,
+               lectura,
+               led->status(led) ? "ON" : "OFF",
+               buzzer->status(buzzer) ? "ON" : "OFF");
 
-        // Imprimir el log con los valores y el estado de los dispositivos
-        print_log(value, led.status(led.params), buzzer.status(buzzer.params));
-
-        // Espera de 100ms (usando nanosleep)
-        struct timespec ts;
-        ts.tv_sec = 0;
-        ts.tv_nsec = 100000000L;  // 100 ms
-        nanosleep(&ts, NULL);
+        /* Frecuencia de muestreo: 100 ms */
+        struct timespec req = {0};
+        req.tv_sec = 0;
+        req.tv_nsec = 100000000L; // 100 ms
+        nanosleep(&req, NULL);
     }
+
+    /* Liberar recursos (aunque aquí nunca se alcanzará) */
+    destroy_led_actuator(led);
+    destroy_buzzer_actuator(buzzer);
 
     return 0;
 }

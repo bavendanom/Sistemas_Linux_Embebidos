@@ -1,11 +1,26 @@
-#ifndef SENSOR_H  // Include guard
+#ifndef SENSOR_H
 #define SENSOR_H
 
-// Declaración de las funciones
-void sensor_init(void);  // Inicializa el sensor
-double sensor_read(void); // Lee el valor del sensor
+/* sensor.h
+ * Declaraciones públicas de la biblioteca de sensores.
+ * Uso de include guard para evitar inclusiones múltiples.
+ */
 
-// Declaración de una variable global (extern) si es necesario
-extern double sensor_value; // Variable global para almacenar el valor del sensor
+#include <stdint.h>
 
-#endif // SENSOR_H
+/* Ejemplo de variable global compartida entre módulos.
+ * Declarada aquí con extern; definida en sensor.c.
+ * El usuario puede sobrescribir sensor_seed antes de llamar sensor_init()
+ * para obtener un patrón reproducible.
+ */
+extern int sensor_seed;
+
+/* Inicializa el subsistema de sensor (si es necesario, siembra RNG, etc.) */
+void sensor_init(void);
+
+/* Lee el sensor y devuelve un valor en double.
+ * Implementación en sensor.c. Para el ejercicio, devuelve valores simulados.
+ */
+double sensor_read(void);
+
+#endif /* SENSOR_H */
