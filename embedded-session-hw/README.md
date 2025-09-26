@@ -546,7 +546,7 @@ Machine:                           Advanced Micro Devices X86-64
 
 ## Reflexión sobre errores
 
-# Errores de compilación
+### Errores de compilación
 
 Ocurren en la **fase de compilación** → cuando `gcc` convierte el código fuente (`.c`) en un archivo objeto (`.o`).
 
@@ -575,7 +575,7 @@ Reflexión: **Los errores de compilación son más fáciles de detectar y correg
 
 ---
 
-## Errores de enlace (linking errors)
+### Errores de enlace (linking errors)
 
 Ocurren en la **fase de enlace** → cuando el linker (`ld`) combina varios `.o` y bibliotecas para generar el ejecutable final.
 
@@ -609,7 +609,7 @@ Reflexión: **Los errores de enlace son más engañosos** porque el código fuen
 
 ---
 
-# Envoltorios (Wrappers)
+### Envoltorios (Wrappers)
 
 En programación en C, un **wrapper (envoltorio)** es una **función o módulo intermedio** que envuelve otra función/biblioteca para:
 
