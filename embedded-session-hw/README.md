@@ -24,7 +24,7 @@ Este proyecto demuestra el diseño de un sistema embebido **modular, reutilizabl
 - [Build](#build)
 - [Ejemplo de ejecución](#ejemplo-de-ejecución)
 - [Inspeccion binaria](#inspeccion-binaria)
-- [Reflexión sobre errores](#reflexion-sobre-errores)
+- [Reflexión sobre errores](#reflexión-sobre-errores)
 
 - [Autor](#autor)
 
