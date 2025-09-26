@@ -24,7 +24,8 @@ Este proyecto demuestra el diseño de un sistema embebido **modular, reutilizabl
 - [Build](#build)
 - [Ejemplo de ejecución](#ejemplo-de-ejecución)
 - [Inspeccion binaria](#inspeccion-binaria)
-- [Reflexión sobre errores de compilación frente a errores de enlace, envoltorios](#reflexión-sobre-errores-de-compilación-frente-a-errores-de-enlace,-envoltorios)
+- [Reflexión sobre errores de compilación frente a errores de enlace, envoltorios](#reflexion-sobre-errores-de-compilacion-frente-a-errores-de-enlace-envoltorios)
+
 - [Autor](#autor)
 
 ## Requisitos
