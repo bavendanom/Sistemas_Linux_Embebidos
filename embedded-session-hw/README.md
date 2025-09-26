@@ -23,7 +23,7 @@ Este proyecto demuestra el diseño de un sistema embebido **modular, reutilizabl
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Build](#build)
 - [Ejemplo de ejecución](#ejemplo-de-ejecución)
-- [Binary inspection](#binary-inspection)
+- [Inspeccion binaria](#inspeccion-binaria)
 - [Reflection on compile vs link errors, wrappers](#reflection-on-compile-vs-link-errors,-wrappers)
 - [Autor](#autor)
 
@@ -393,7 +393,7 @@ Se genera a partir de `controller/ctl.c` + sensores + actuadores.
 
 Este es el **ejecutable más completo**, que implementa el lazo de control con lógica anti-parpadeo mediante retardos.
 
-## Binary inspection
+## Inspeccion binaria
 
 Vamos a ver ejemplos concretos de **inspección binaria con `file` y `readelf`** en dos escenarios:
 
