@@ -24,7 +24,7 @@ Este proyecto demuestra el diseño de un sistema embebido **modular, reutilizabl
 - [Build](#build)
 - [Ejemplo de ejecución](#ejemplo-de-ejecución)
 - [Inspeccion binaria](#inspeccion-binaria)
-- [Reflexión sobre errores de compilación frente a errores de enlace, envoltorios](#reflexion-sobre-errores-de-compilacion-frente-a-errores-de-enlace-envoltorios)
+- [Reflexión sobre errores](#reflexion-sobre-errores)
 
 - [Autor](#autor)
 
@@ -544,7 +544,7 @@ Class:                             ELF64
 Machine:                           Advanced Micro Devices X86-64
 ```
 
-## Reflexión sobre errores de compilación frente a errores de enlace, envoltorios
+## Reflexión sobre errores
 
 # Errores de compilación
 
