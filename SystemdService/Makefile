@@ -46,7 +46,7 @@ clean:
 # Run tests
 test: $(TARGET)
 	@echo "Running smoke tests..."
-	$(TESTS_DIR)/smoke-test.sh
+	@bash tests/smoke-test.sh
 
 # Enable and start service
 enable-service: install
