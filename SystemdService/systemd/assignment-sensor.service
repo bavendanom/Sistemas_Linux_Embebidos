@@ -1,0 +1,23 @@
+[Unit]
+Description=Mock sensor logger
+After=network.target
+Documentation=https://github.com/bavendanom/Sistemas_Linux_Embebidos/tree/main/SystemdService
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/assignment-sensor --interval 5 --logfile /tmp/assignment_sensor.log
+Restart=on-failure
+RestartSec=2
+User=root
+Group=root
+StandardOutput=journal
+StandardError=journal
+
+# Security settings
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/tmp /var/tmp
+
+[Install]
+WantedBy=multi-user.target
